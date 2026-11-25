@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima - São Paulo</title>
+</head>
+<body>
+    <h1>Consulta do clima</h1>
+    <p>Os dados serão exibidos no console do navegador.</p>
+
+    <script>
+        // Substitua 'sua chave' pela chave recebida no site da OpenWeatherMap
+        const apiKey = '26e643cb5253eba5d7bc1b2b255ac1c6';
+        const cidade = 'Sao Paulo';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cidade)}&appid=${apiKey}&units=metric&lang=pt_br`;
+
+        async function consultarClima() {
+            try {
+                const resposta = await fetch(url);
+
+                // Verifica se a requisição deu certo
+                if (!resposta.ok) {
+                    throw new Error(`Erro na requisição: ${resposta.status}`);
+                }
+
+                const dados = await resposta.json();
+
+                // Exibindo os dados no console
+                console.log(`Clima em ${dados.name}:`);
+                console.log(`Temperatura: ${dados.main.temp}°C`);
+                console.log(`Condição: ${dados.weather[0].description}`);
+                console.log(`Umidade: ${dados.main.humidity}%`);
+            } catch (erro) {
+                console.error('Não foi possível buscar o clima:', erro.message);
+            }
+        }
+
+        consultarClima();
+    </script>
+</body>
+</html>
